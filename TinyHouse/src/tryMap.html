@@ -4,16 +4,77 @@
     <meta charset="UTF-8">
     <title>Tiny House Map Experiment</title>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-    <link rel="stylesheet" href="map.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+          integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
+            integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+            crossorigin=""></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.css' rel='stylesheet' />
 
-    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js" type="text/javascript"></script>
-    <script src="mapcode.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="map.css"/>
+    <script src="mapcode.js"></script>
+
+
 
 </head>
 <body>
-    <div id="mapid"></div>
+    <h1>Tiny House Interactive Map by LeafletJS</h1>
 
+
+    <h2> Mapbox only</h2>
+    <div id='map'></div>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZWF0YmFubGkiLCJhIjoiY2oyNm9kMmNrMDEzajMzbzV4dzlvZDJ4YiJ9.Vd_nQMEfIVtqRytVSCDQOg';
+    var mapBoxMap = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v9'
+    });
+    var mymap = L.map('map').setView([51.505, -0.09], 13);
+</script>
+
+    <h2>Leaflet + Mapbox</h2>
+    <div id="circle"></div>
+    <script>
+        var marker = L.marker([51.5, -0.09]).addTo(map);
+        var circle = L.circle([51.508, -0.11], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 500
+        }).addTo(mymap);
+        var polygon = L.polygon([
+        [51.509, -0.08],
+        [51.503, -0.06],
+        [51.51, -0.047]
+        ]).addTo(mymap);
+    </script>
+
+<div id="mapid"></div>
+    <script>
+        var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+
+//        L.mapbox.tileLayer('mapbox.streets').addTo(mymap);
+        var layer = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZWF0YmFubGkiLCJhIjoiY2oyNm85Zm8wMDExbDMyc2Nyamg1Z3JmOSJ9.hHJd89gkLS-oC6QSs41ojA' ).addTo(mymap);
+
+        var marker = L.marker([51.5, -0.09]).addTo(mymap);
+        var circle = L.circle([51.508, -0.11], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 500
+        }).addTo(mymap);
+        var polygon = L.polygon([
+        [51.509, -0.08],
+        [51.503, -0.06],
+        [51.51, -0.047]
+        ]).addTo(mymap);
+
+        marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+        circle.bindPopup("I am a circle.");
+        polygon.bindPopup("I am a polygon.");
+    </script>
 
 
 </body>
